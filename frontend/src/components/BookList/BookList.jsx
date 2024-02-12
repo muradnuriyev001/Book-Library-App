@@ -5,7 +5,9 @@ import { deleteBook } from "../../redux/books/actionCreators";
 
 const BookList = () => {
   const dispatch = useDispatch();
+
   const books = useSelector((state) => state.books); //books from books:booksReducer
+  
   const handleDeleteBook = (id) => {
     dispatch(deleteBook(id));
   };

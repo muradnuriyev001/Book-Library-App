@@ -2,6 +2,8 @@ import "./BookForm.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addBook } from "../../redux/books/actionCreators";
+import { v4 as uuidv4 } from "uuid";
+
 const BookForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -14,12 +16,13 @@ const BookForm = () => {
     if (title && author) {
       //dispatch action
       const book = {
-        title,
-        author,
+        title, // title: title
+        author, //author: author
+        id: uuidv4(), //random id for every book
       };
 
       console.log(addBook(book));
-      
+
       dispatch(addBook(book));
       setTitle("");
       setAuthor("");

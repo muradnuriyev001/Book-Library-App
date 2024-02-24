@@ -1,7 +1,11 @@
 import "./BookList.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { deleteBook, toggleFavorite } from "../../redux/books/actionCreators";
+import {
+  deleteBook,
+  toggleFavorite,
+  selectBooks,
+} from "../../redux/slices/booksSlice";
 
 import { BsBookmarkStar, BsBookmarkStarFill } from "react-icons/bs";
 import {
@@ -16,7 +20,7 @@ const BookList = () => {
   // const testSelector = useSelector((state) => state);
   // console.log(testSelector);
 
-  const books = useSelector((state) => state.books); //books from books:booksReducer
+  const books = useSelector(selectBooks); //books from books:booksReducer
   const titleFiter = useSelector(selectTitleFilter);
   const authorFilter = useSelector(selectAuthorFilter);
   const onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter);
@@ -53,7 +57,7 @@ const BookList = () => {
       return substring;
     });
   };
-  
+
   return (
     <div className="app-block book-list">
       <h2>Book List</h2>

@@ -47,6 +47,7 @@ const BookForm = () => {
         <div>
           <label htmlFor="title">Title:</label>
           <input
+            autoComplete="off"
             type="text"
             id="title"
             value={title}
@@ -56,6 +57,7 @@ const BookForm = () => {
         <div>
           <label htmlFor="author">Author:</label>
           <input
+            autoComplete="off"
             type="text"
             id="author"
             value={author}

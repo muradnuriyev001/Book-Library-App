@@ -2,6 +2,7 @@ import "./BookForm.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addBook, fetchBook } from "../../redux/slices/booksSlice";
+import { setError } from "../../redux/slices/errorSlice";
 import booksData from "../../data/books.json";
 import createBooKWithID from "../../utils/createBookWithID";
 
@@ -30,6 +31,8 @@ const BookForm = () => {
       dispatch(addBook(createBooKWithID({ title, author }, "manual")));
       setTitle("");
       setAuthor("");
+    } else {
+      dispatch(setError("You must fill title and author!"));
     }
   };
 

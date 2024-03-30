@@ -1,7 +1,7 @@
 import "./BookForm.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addBook, thunkFunction } from "../../redux/slices/booksSlice";
+import { addBook, fetchBook } from "../../redux/slices/booksSlice";
 import booksData from "../../data/books.json";
 import createBooKWithID from "../../utils/createBookWithID";
 
@@ -39,7 +39,7 @@ const BookForm = () => {
     // const randomBookWithID = createBooKWithID(randomBook); //imported function from other file createBookWithID
     dispatch(addBook(createBooKWithID(randomBook, "random")));
   };
-  
+
   //Working method,but better store it in redux
 
   // const thunkFunction = async (dispatch, getState) => {
@@ -55,7 +55,7 @@ const BookForm = () => {
   // };
 
   const handleAddRandomBookApi = () => {
-    dispatch(thunkFunction);
+    dispatch(fetchBook());
   };
 
   return (

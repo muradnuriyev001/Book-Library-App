@@ -37,14 +37,25 @@ const booksSlice = createSlice({
       });
     },
   },
+
   //For Api request
-  extraReducers: (builder) => {
-    builder.addCase(fetchBook.fulfilled, (state, action) => {
+  //1 method
+  extraReducers: {
+    [fetchBook.fulfilled]: (state, action) => {
       if (action.payload.title && action.payload.author) {
         state.push(createBooKWithID(action.payload, "API"));
       }
-    });
+    },
   },
+
+  //2 method
+  // extraReducers: (builder) => {
+  //   builder.addCase(fetchBook.fulfilled, (state, action) => {
+  //     if (action.payload.title && action.payload.author) {
+  //       state.push(createBooKWithID(action.payload, "API"));
+  //     }
+  //   });
+  // },
 });
 
 export const { addBook, deleteBook, toggleFavorite } = booksSlice.actions;

@@ -1,10 +1,9 @@
 import "./BookForm.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addBook } from "../../redux/slices/booksSlice";
+import { addBook, thunkFunction } from "../../redux/slices/booksSlice";
 import booksData from "../../data/books.json";
 import createBooKWithID from "../../utils/createBookWithID";
-import axios from "axios";
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
@@ -40,16 +39,23 @@ const BookForm = () => {
     // const randomBookWithID = createBooKWithID(randomBook); //imported function from other file createBookWithID
     dispatch(addBook(createBooKWithID(randomBook, "random")));
   };
+  
+  //Working method,but better store it in redux
 
-  const handleAddRandomBookApi = async () => {
-    try {
-      const res = await axios.get("http://localhost:4000/random-book");
-      if (res?.data?.title && res?.data?.author) {
-        dispatch(addBook(createBooKWithID(res.data, "API")));
-      }
-    } catch (error) {
-      alert("Network Error", error);
-    }
+  // const thunkFunction = async (dispatch, getState) => {
+  //   console.log(getState())
+  //   try {
+  //     const res = await axios.get("http://localhost:4000/random-book");
+  //     if (res?.data?.title && res?.data?.author) {
+  //       dispatch(addBook(createBooKWithID(res.data, "API")));
+  //     }
+  //   } catch (error) {
+  //     alert("Network Error", error);
+  //   }
+  // };
+
+  const handleAddRandomBookApi = () => {
+    dispatch(thunkFunction);
   };
 
   return (

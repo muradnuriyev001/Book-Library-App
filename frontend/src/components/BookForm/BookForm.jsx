@@ -28,7 +28,7 @@ const BookForm = () => {
 
       // console.log(addBook(book));
 
-      dispatch(addBook(createBooKWithID({ title, author })));
+      dispatch(addBook(createBooKWithID({ title, author }, "manual")));
       setTitle("");
       setAuthor("");
     }
@@ -38,14 +38,14 @@ const BookForm = () => {
     const randomIndex = Math.floor(Math.random() * booksData.length);
     const randomBook = booksData[randomIndex];
     // const randomBookWithID = createBooKWithID(randomBook); //imported function from other file createBookWithID
-    dispatch(addBook(createBooKWithID(randomBook)));
+    dispatch(addBook(createBooKWithID(randomBook, "random")));
   };
 
   const handleAddRandomBookApi = async () => {
     try {
       const res = await axios.get("http://localhost:4000/random-book");
       if (res?.data?.title && res?.data?.author) {
-        dispatch(addBook(createBooKWithID(res.data)));
+        dispatch(addBook(createBooKWithID(res.data, "API")));
       }
     } catch (error) {
       alert("Network Error", error);
@@ -82,7 +82,7 @@ const BookForm = () => {
           Add Random
         </button>
         <button type="button" onClick={handleAddRandomBookApi}>
-          Add via Random Api
+          Add Random via Api
         </button>
       </form>
     </div>

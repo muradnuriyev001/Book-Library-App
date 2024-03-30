@@ -3,7 +3,10 @@ import createBooKWithID from "../../utils/createBookWithID";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setError } from "./errorSlice";
 
-const initialState = [];
+const initialState = {
+  books: [],
+  isLoadingViaApi: false,
+};
 
 export const fetchBook = createAsyncThunk(
   "books/fetchBook",
@@ -14,7 +17,11 @@ export const fetchBook = createAsyncThunk(
       return res.data;
     } catch (error) {
       thunkAPI.dispatch(setError(error.message));
-      throw error;
+      //method1
+      //thorw error
+      
+      //methor2
+      return thunkAPI.rejectWithValue(error); //Promise fullfield => rejected
     }
   }
 );
@@ -24,13 +31,16 @@ const booksSlice = createSlice({
   initialState,
   reducers: {
     addBook: (state, action) => {
-      state.push(action.payload);
+      state.books.push(action.payload);
     },
     deleteBook: (state, action) => {
-      return state.filter((book) => book.id !== action.payload);
+      return {
+        ...state,
+        books: state.books.filter((book) => book.id !== action.payload),
+      };
     },
     toggleFavorite: (state, action) => {
-      state.forEach((book) => {
+      state.books.forEach((book) => {
         if (book.id === action.payload) {
           book.isFavorite = !book.isFavorite;
         }
@@ -41,10 +51,17 @@ const booksSlice = createSlice({
   //For Api request
   //1 method
   extraReducers: {
+    [fetchBook.pending]: (state) => {
+      state.isLoadingViaApi = true;
+    },
     [fetchBook.fulfilled]: (state, action) => {
+      state.isLoadingViaApi = false;
       if (action.payload.title && action.payload.author) {
-        state.push(createBooKWithID(action.payload, "API"));
+        state.books.push(createBooKWithID(action.payload, "API"));
       }
+    },
+    [fetchBook.rejected]: (state) => {
+      state.isLoadingViaApi = false;
     },
   },
 
@@ -59,5 +76,8 @@ const booksSlice = createSlice({
 });
 
 export const { addBook, deleteBook, toggleFavorite } = booksSlice.actions;
-export const selectBooks = (state) => state.books;
+
+export const selectBooks = (state) => state.books.books;
+export const selectIsLoadingViaAPI = (state) => state.books.isLoadingViaApi;
+
 export default booksSlice.reducer;
